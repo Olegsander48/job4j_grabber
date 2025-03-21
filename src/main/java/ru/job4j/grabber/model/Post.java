@@ -12,6 +12,13 @@ public class Post {
     public Post() {
     }
 
+    public Post(String title, String link, String description, Long time) {
+        this.title = title;
+        this.link = link;
+        this.description = description;
+        this.time = time;
+    }
+
     public Post(long id, String title, String link, String description, Long time) {
         this.id = id;
         this.title = title;
