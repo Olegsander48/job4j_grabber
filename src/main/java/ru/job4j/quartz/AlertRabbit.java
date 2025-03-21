@@ -35,7 +35,6 @@ public class AlertRabbit {
         @Override
         public void execute(JobExecutionContext context) {
             System.out.println("Rabbit runs here ...");
-            System.out.println("NIGGERS");
         }
     }
 
