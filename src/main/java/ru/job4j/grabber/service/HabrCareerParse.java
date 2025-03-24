@@ -3,10 +3,9 @@ package ru.job4j.grabber.service;
 import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
 import ru.job4j.grabber.model.Post;
-
+import ru.job4j.grabber.utils.HabrCareerDateTimeParser;
 import java.io.IOException;
-import java.time.OffsetDateTime;
-import java.time.format.DateTimeFormatter;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,10 +34,10 @@ public class HabrCareerParse implements Parse {
                 var post = new Post();
                 post.setTitle(vacancyName);
                 post.setLink(link);
-                post.setTime(OffsetDateTime.parse(
-                        created.child(0)
-                                .attr("datetime"),
-                        DateTimeFormatter.ISO_OFFSET_DATE_TIME).toEpochSecond());
+                post.setTime(new HabrCareerDateTimeParser()
+                        .parse(created.child(0).attr("datetime"))
+                        .atZone(ZoneId.systemDefault())
+                        .toEpochSecond());
                 result.add(post);
             });
         } catch (IOException e) {
