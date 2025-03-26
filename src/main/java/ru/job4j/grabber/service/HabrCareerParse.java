@@ -38,7 +38,6 @@ public class HabrCareerParse implements Parse {
                     post.setTitle(vacancyName);
                     post.setLink(link);
                     post.setDescription(retrieveDescription(link));
-                    //retrieveDescription(link);
                     post.setTime(new HabrCareerDateTimeParser()
                             .parse(created.child(0).attr("datetime"))
                             .atZone(ZoneId.systemDefault())
