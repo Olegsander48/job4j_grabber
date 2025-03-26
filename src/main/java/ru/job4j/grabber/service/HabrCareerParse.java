@@ -2,8 +2,10 @@ package ru.job4j.grabber.service;
 
 import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import ru.job4j.grabber.model.Post;
 import ru.job4j.grabber.utils.HabrCareerDateTimeParser;
+
 import java.io.IOException;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -35,6 +37,8 @@ public class HabrCareerParse implements Parse {
                     var post = new Post();
                     post.setTitle(vacancyName);
                     post.setLink(link);
+                    post.setDescription(retrieveDescription(link));
+                    //retrieveDescription(link);
                     post.setTime(new HabrCareerDateTimeParser()
                             .parse(created.child(0).attr("datetime"))
                             .atZone(ZoneId.systemDefault())
@@ -44,6 +48,25 @@ public class HabrCareerParse implements Parse {
             }
         } catch (IOException e) {
             LOG.error("When load page", e);
+        }
+        return result;
+    }
+
+    private String retrieveDescription(String link) {
+        String result;
+        try {
+            var connection = Jsoup.connect(link);
+            Document document = connection.get();
+            var rows = document.select(".vacancy-description__text");
+            StringBuilder builder = new StringBuilder();
+            for (int i = 0; i < 3; i++) {
+                builder.append(rows.get(0).getElementsByTag("h3").get(i).text());
+                builder.append(": ");
+                builder.append(rows.get(0).select(".style-ugc").get(i).text());
+            }
+            result = builder.toString();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
         return result;
     }
