@@ -1,3 +1,5 @@
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/Olegsander48/job4j_grabber/CI?label=build)
+
 Проект "Агрегатор вакансий"
 
 Система запускается по расписанию - раз в минуту.  Период запуска указывается в настройках - app.properties. 
